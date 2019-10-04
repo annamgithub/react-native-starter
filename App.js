@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import RoundedButton from '@components/RoundedButton';
 import axios from 'axios';
@@ -7,12 +7,20 @@ export default function App() {
   const [color, setColor] = useState('#161616');
   const [prompt, setPrompt] = useState('Hello!');
 
-  useEffect(async () => {
-    const newPrompt = await randomPrompt();
-    if (newPrompt) {
-      setPrompt(newPrompt.title);
-    }
+  useEffect(() => {
+    randomPrompt();
+    setColor(randomRgb());
   }, '');
+
+  const randomPrompt = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/random');
+      const prompt = response.data;
+      setPrompt(prompt.title);
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
@@ -20,12 +28,9 @@ export default function App() {
       <RoundedButton
         text="Next"
         textColor="#161616"
-        onPress={async () => {
-          const newPrompt = await randomPrompt();
-          if (newPrompt) {
-            setPrompt(newPrompt.title);
+        onPress={() => {
+            randomPrompt();
             setColor(randomRgb());
-          }
         }}
       />
     </View>
@@ -38,17 +43,6 @@ const randomRgb = () => {
   const blue = Math.floor(Math.random() * 256);
   return `rgb(${red}, ${green}, ${blue})`;
 };
-
-const randomPrompt = async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/random');
-    const prompt = response.data;
-    return prompt;
-  } catch(err) {
-    console.log(err);
-    return false;
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
