@@ -1,30 +1,22 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import RoundedButton from '@components/RoundedButton';
-import prompts from './prompts.json';
 
 export default function App() {
   const [color, setColor] = useState('#161616');
-  const [index, setIndex] = useState(0);
-  const currentPrompt = prompts[index].prompt;
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
-      <Text style={styles.prompt}>{currentPrompt}</Text>
+      <Text style={styles.prompt}>Hello World! Welcome to my app.</Text>
       <RoundedButton
         text="Next"
         textColor="#161616"
         onPress={() => {
           setColor(randomRgb())
-          setIndex(randomInt())
         }}
       />
     </View>
   );
 }
-
-const randomInt = () => {
-  return Math.floor(Math.random() * 19);
-};
 
 const randomRgb = () => {
   const red = Math.floor(Math.random() * 256);
