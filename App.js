@@ -7,6 +7,13 @@ export default function App() {
   const [color, setColor] = useState('#161616');
   const [prompt, setPrompt] = useState('Hello!');
 
+  useEffect(async () => {
+    const newPrompt = await randomPrompt();
+    if (newPrompt) {
+      setPrompt(newPrompt.title);
+    }
+  }, '');
+
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
       <Text style={styles.prompt}>{prompt}</Text>
@@ -24,10 +31,6 @@ export default function App() {
     </View>
   );
 }
-
-const randomInt = () => {
-  return Math.floor(Math.random() * 19);
-};
 
 const randomRgb = () => {
   const red = Math.floor(Math.random() * 256);
