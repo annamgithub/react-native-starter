@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import RoundedButton from '@components/RoundedButton';
+import RoundedButton from './RoundedButton';
 
 export default function App() {
   const [color, setColor] = useState('#161616');
