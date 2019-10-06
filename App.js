@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import RoundedButton from '@components/RoundedButton';
+import RoundedButton from './RoundedButton';
 import axios from 'axios';
 
 export default function App() {
