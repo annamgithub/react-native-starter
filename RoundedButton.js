@@ -8,8 +8,8 @@ export default function RoundedButton(props) {
     <TouchableOpacity
       onPress={() => onPress && onPress()}
       style={[
+        styles.wrapper,
         { backgroundColor: backgroundColor || 'transparent' },
-        styles.wrapper
       ]}
     >
       <View style={styles.ButtonTextWrapper}>
