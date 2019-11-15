@@ -1,42 +1,26 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import RoundedButton from './RoundedButton';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import Prompt from './Prompt';
+
+const BASE_URL = 'http://localhost:3000/graphql';
+
+const httpLink = new HttpLink({
+  uri: BASE_URL
+});
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+});
 
 export default function App() {
-  const [color, setColor] = useState('#161616');
   return (
-    <View style={[styles.container, { backgroundColor: color }]}>
-      <Text style={styles.prompt}>{currentPrompt}</Text>
-      <RoundedButton
-        text="Next"
-        textColor="#161616"
-        onPress={() => {
-          setColor(randomRgb())
-        }}
-      />
-    </View>
+    <ApolloProvider client={client}>
+      <Prompt />
+    </ApolloProvider>
   );
 }
-
-const randomRgb = () => {
-  const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-  return `rgb(${red}, ${green}, ${blue})`;
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20
-  },
-  prompt: {
-    color: 'white',
-    fontSize: 22,
-    padding: 20,
-    textAlign: 'center'
-  }
-});
